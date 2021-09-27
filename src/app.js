@@ -1,9 +1,10 @@
+require('dotenv').config();
 const dbConfig = {
-  host: 'sql11.freesqldatabase.com',
-  user: 'sql11440279',
-  password: 'MB9ysyYm9r',
-  port: '3306',
-  database: 'sql11440279',
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
+  database: process.env.DB_DB,
 };
 
 const init = async () => {
