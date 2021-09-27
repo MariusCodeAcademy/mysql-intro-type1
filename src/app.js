@@ -1,4 +1,5 @@
 require('dotenv').config();
+
 const dbConfig = {
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -29,12 +30,28 @@ const init = async () => {
   const addRowToPost = async () => {
     const sql = `
     INSERT INTO posts(author, body)
-    VALUES ('James Bond', 'Firs post of James')
+    VALUES ('Jane', 'Second post of Jane')
     `;
     const [rows, fields] = await connection.query(sql);
     console.log(rows, fields);
   };
-  await addRowToPost();
+  // await addRowToPost();
+
+  const getPosts = async () => {
+    const sql = 'SELECT * FROM `posts`';
+    const [rows, fields] = await connection.query(sql);
+    console.log('rows', rows);
+    // console.log('fields', fields);
+  };
+  // await getPosts();
+
+  const getPostsFrom = async (owner) => {
+    const sql = `SELECT * FROM posts WHERE author = '${owner}'`;
+    const [rows, fields] = await connection.query(sql);
+    console.log('rows', rows);
+    // console.log('fields', fields);
+  };
+  await getPostsFrom('James Bond');
 
   await connection.end();
 };
