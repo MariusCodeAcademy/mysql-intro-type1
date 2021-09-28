@@ -1,10 +1,24 @@
+require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors');
+
+const mysql = require('mysql2');
+
+const dbConfig = {
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
+  database: process.env.DB_DB,
+};
 
 const app = express();
 
 // middleware
 app.use(morgan('dev'));
+app.use(cors());
+app.use(express.json());
 
 app.get('/', function (req, res) {
   res.send('Hello World');
@@ -15,9 +29,29 @@ app.get('/create-table', function (req, res) {
 });
 
 app.post('/api/new', function (req, res) {
-  const body = req.body;
-  console.log('body we got to /api/new', body);
+  // const { author, text } = req.body;
+  const author = req.body.author;
+  const text = req.body.text;
+  console.log('body we got to /api/new');
   // ivygdyti naujos lenteles sukurimo koda
+  // prisijungti prie db
+  const conn = mysql.createConnection(dbConfig);
+  // atslikti veiksma
+  const sql = `
+    INSERT INTO posts(author, body)
+    VALUES (?, ?)
+    `;
+  conn.execute(sql, [author, text], (err, result) => {
+    if (err) {
+      // ivyko klaida
+      res.status(500).json({ msg: 'fail' });
+    } else {
+      console.log('irasas sukurtas', result);
+      res.json({ msg: 'success' });
+    }
+  });
+  // uzdaryti connection
+  conn.end();
 });
 
 app.listen(3000, console.log('server running'));

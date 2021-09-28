@@ -29,8 +29,14 @@
         headers: {
           'Content-type': 'application/json'
         }
-      }).then(resp => resp.text())
-        .then(data => console.log(data))
+      }).then(resp => resp.json())
+        .then(data => {
+          console.log(data)
+          if (data.msg === 'success') {
+            console.log('pavyko');
+            formEl.reset();
+          }
+        })
         .catch(err => console.log('err', err))
     })
 
