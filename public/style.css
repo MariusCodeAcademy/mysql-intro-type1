@@ -1,0 +1,22 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
+    'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.form {
+  width: 500px;
+  background-color: rgb(226, 226, 226);
+  padding: 1rem;
+}
+
+.form input,
+.form textarea {
+  display: block;
+  padding: 0.2rem, 0.5rem;
+  width: calc(100% - 1rem);
+  margin: 0.5em;
+}

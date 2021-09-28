@@ -16,7 +16,7 @@ const dbConfig = {
 const app = express();
 
 // middleware
-app.use(morgan('dev'));
+app.use(morgan('common'));
 app.use(cors());
 app.use(express.json());
 
@@ -51,6 +51,28 @@ app.post('/api/new', function (req, res) {
     }
   });
   // uzdaryti connection
+  conn.end();
+});
+
+// GET /posts
+app.get('/posts', (req, res) => {
+  // prisijungti prie DB
+  const conn = mysql.createConnection(dbConfig);
+  // Parasyti uzklausa gauti visus reikalingus duomenis
+  const sql = 'SELECT * FROM posts';
+  // ivygdyti uzklausa
+  conn.query(sql, (err, result) => {
+    if (!err) {
+      console.log('result', result);
+      res.json({ msg: 'success', posts: result });
+    } else {
+      res.json({ msg: 'fail' });
+    }
+  });
+
+  // siusi json pavidalu uzklausos rezultatus
+
+  // uzdaryti prisijungima
   conn.end();
 });
 
